@@ -32,7 +32,10 @@ def postserv(rawuri,address,signature):
 		paramsj = json.dumps(data)
 		uri = urlparse(rawuri)
 		assert uri.scheme == "bitid"
-		conni = httplib.HTTPConnection(uri.hostname,uri.port,timeout=4)
+		if 'u=1' in rawuri:
+			conni = httplib.HTTPConnection(uri.hostname,uri.port,timeout=4)
+		else:
+			conni = httplib.HTTPSConnection(uri.hostname,uri.port,timeout=4)
 		conni.request("POST",uri.path,paramsj,headers)
 		rep = conni.getresponse()
 		conni.close()
